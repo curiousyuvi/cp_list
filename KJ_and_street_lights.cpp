@@ -14,10 +14,7 @@ int main()
     ll pos[n], range[n];
     for (ll i = 0; i < n; i++)
     {
-        int a, b;
-        cin >> a >> b;
-        pos[i] = a;
-        range[i] = b;
+        cin >> pos[i] >> range[i];
     }
     // cout << n << " " << p << endl;
 
@@ -29,68 +26,55 @@ int main()
     //     cout << range[i] << " ";
     // cout << endl;
 
-    ll path[p + 1] = {0};
+    ll path[p + 2] = {0};
     // for (ll i = 0; i <= p; i++)
     //     cout << path[i] << " ";
     // cout << endl;
 
     for (ll i = 0; i < n; i++)
     {
-        for (ll j = pos[i]; j <= min(p, (pos[i] + range[i])); j++)
+        ll x = min(pos[i] + range[i], p) - max((ll)0, pos[i] - range[i]);
+        if (x == 0)
         {
-            if (path[j] == 0)
-            {
-                path[j] = 1;
-            }
-            else if (path[j] == 1)
-            {
-                path[j] = -1;
-            }
-        }
-        for (ll j = (pos[i] >= 1) ? (pos[i] - 1) : -1; j >= max((ll)0, (pos[i] - range[i])); j--)
-        {
-            if (path[j] == 0)
-            {
-                path[j] = 1;
-            }
-            else if (path[j] == 1)
-            {
-                path[j] = -1;
-            }
-        }
-    }
-
-    // for (ll i = 0; i <= p; i++)
-    // cout << path[i] << " ";
-    // cout << endl;
-
-    ll ans = LONG_LONG_MIN;
-    ll c = 0;
-    if (path[0] != 1)
-    {
-        c = 1;
-    }
-    for (ll i = 1; i <= p; i++)
-    {
-        if (path[i - 1] != 1 && path[i] != 1)
-        {
-            c++;
-        }
-        else if (path[i] != 1)
-        {
-            ans = max(ans, c);
-            c = 1;
+            path[max((ll)0, pos[i] - range[i])] += 1;
+            path[max((ll)0, pos[i] - range[i]) + 1] -= 1;
         }
         else
         {
-            ans = max(ans, c);
+            path[max((ll)0, pos[i] - range[i])] += 1;
+            path[min(pos[i] + range[i] + 1, p + 1)] -= 1;
+        }
+    }
+
+    ll sum = 0;
+
+    for (ll i = 0; i <= p; i++)
+    {
+        sum += path[i];
+        path[i] = sum;
+        // cout << path[i] << " ";
+    }
+    // cout << endl;
+
+    ll ans = 0;
+    ll c = 0;
+    for (ll i = 0; i <= p; i++)
+    {
+        if (path[i] != 1)
+        {
+            c++;
+        }
+        else
+        {
+            ans = max(c, ans);
             c = 0;
         }
 
         if (i == p)
         {
-            ans = max(ans, c);
+            ans = max(c, ans);
         }
+        // cout << c << " " << ans << endl;
     }
 
     cout << ans << endl;
