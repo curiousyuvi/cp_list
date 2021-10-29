@@ -11,7 +11,16 @@ int main()
     cin >> t;
     while (t--)
     {
-        
+        ll n;
+        cin >> n;
+        vector<ll> v;
+        v.push_back(0);
+        for (ll i = 0; i < n; i++)
+        {
+            ll input;
+            cin >> input;
+            v.push_back(input);
+        }
     }
     return 0;
 }

@@ -11,7 +11,13 @@ int main()
     cin >> t;
     while (t--)
     {
-        
+        ll x, k;
+        cin >> x >> k;
+
+        ll minLCM = x * 2;
+        ll maxLCM = (x * k) * ((x * k) - 1);
+
+        cout << minLCM << " " << maxLCM << endl;
     }
     return 0;
 }
